@@ -1,0 +1,1516 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Afia Medical Clinic | عيادة عافية الطبية</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #1a6b6b;
+    --primary-light: #2a8f8f;
+    --primary-faint: #e8f4f4;
+    --accent: #4eb3a0;
+    --accent-warm: #7ecec4;
+    --text-dark: #1a2332;
+    --text-mid: #4a5568;
+    --text-soft: #718096;
+    --border: #e2e8f0;
+    --surface: #f8fafc;
+    --white: #ffffff;
+    --shadow-sm: 0 1px 3px rgba(26,107,107,0.08), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-md: 0 4px 16px rgba(26,107,107,0.12);
+    --shadow-lg: 0 8px 40px rgba(26,107,107,0.15);
+    --radius: 12px;
+    --font-en: 'DM Sans', sans-serif;
+    --font-ar: 'Cairo', sans-serif;
+    --transition: 0.3s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-en);
+    color: var(--text-dark);
+    background: var(--white);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  [dir="rtl"] body { font-family: var(--font-ar); }
+  [dir="rtl"] * { font-family: var(--font-ar); }
+
+  /* ──── LANG TRANSITIONS ──── */
+  .lang-fade { animation: langFadeIn 0.45s cubic-bezier(0.4,0,0.2,1) both; }
+  @keyframes langFadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ──── SCROLL ANIMATIONS ──── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  /* ──── NAVBAR ──── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 5%;
+    height: 68px;
+    display: flex; align-items: center; justify-content: space-between;
+    transition: box-shadow var(--transition);
+  }
+  nav.scrolled { box-shadow: var(--shadow-md); }
+
+  .nav-logo {
+    display: flex; align-items: center; gap: 10px;
+    text-decoration: none;
+  }
+  .nav-logo-icon {
+    width: 38px; height: 38px;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    border-radius: 10px;
+    display: grid; place-items: center;
+  }
+  .nav-logo-icon svg { width: 20px; height: 20px; fill: white; }
+  .nav-logo-text { font-size: 17px; font-weight: 600; color: var(--primary); letter-spacing: -0.3px; }
+
+  .nav-links {
+    display: flex; align-items: center; gap: 6px;
+    list-style: none;
+  }
+  .nav-links a {
+    padding: 7px 14px; border-radius: 8px;
+    text-decoration: none; font-size: 14px; font-weight: 500;
+    color: var(--text-mid);
+    transition: all var(--transition);
+  }
+  .nav-links a:hover { background: var(--primary-faint); color: var(--primary); }
+
+  .nav-right { display: flex; align-items: center; gap: 10px; }
+
+  .lang-toggle {
+    display: flex; align-items: center;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px; overflow: hidden;
+  }
+  .lang-btn {
+    padding: 6px 12px; font-size: 13px; font-weight: 600;
+    cursor: pointer; border: none; background: transparent;
+    color: var(--text-soft); transition: all var(--transition);
+    font-family: var(--font-en) !important;
+  }
+  .lang-btn.active {
+    background: var(--primary); color: white;
+  }
+
+  .btn-nav {
+    padding: 8px 18px; border-radius: 9px;
+    background: var(--primary); color: white;
+    font-size: 13px; font-weight: 600;
+    border: none; cursor: pointer;
+    transition: all var(--transition);
+    text-decoration: none; display: inline-block;
+  }
+  .btn-nav:hover { background: var(--primary-light); transform: translateY(-1px); }
+
+  .hamburger {
+    display: none; flex-direction: column; gap: 5px;
+    cursor: pointer; padding: 5px; background: none; border: none;
+  }
+  .hamburger span {
+    display: block; width: 22px; height: 2px;
+    background: var(--text-dark); border-radius: 2px;
+    transition: all var(--transition);
+  }
+
+  /* ──── HERO ──── */
+  #hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 120px 5% 80px;
+    position: relative;
+    background: linear-gradient(160deg, #f0f9f9 0%, #ffffff 50%, #f0f9f6 100%);
+    overflow: hidden;
+  }
+  .hero-bg-circle {
+    position: absolute; border-radius: 50%;
+    opacity: 0.06; background: var(--primary);
+    pointer-events: none;
+  }
+  .hero-bg-circle.c1 { width: 600px; height: 600px; top: -200px; right: -100px; }
+  .hero-bg-circle.c2 { width: 300px; height: 300px; bottom: -50px; left: 10%; background: var(--accent); }
+
+  .hero-inner {
+    max-width: 1200px; margin: 0 auto; width: 100%;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+  }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--primary-faint); border: 1px solid rgba(26,107,107,0.15);
+    border-radius: 100px; padding: 6px 14px;
+    font-size: 13px; font-weight: 500; color: var(--primary);
+    margin-bottom: 24px;
+  }
+  .hero-badge-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent); animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%,100% { opacity: 1; transform: scale(1); }
+    50%      { opacity: 0.5; transform: scale(1.4); }
+  }
+
+  .hero-title {
+    font-size: clamp(36px, 5vw, 58px);
+    font-weight: 300; line-height: 1.15;
+    color: var(--text-dark); letter-spacing: -1px;
+    margin-bottom: 16px;
+  }
+  .hero-title strong { font-weight: 600; color: var(--primary); }
+
+  .hero-subtitle {
+    font-size: 17px; color: var(--text-soft);
+    max-width: 420px; margin-bottom: 40px; line-height: 1.7;
+  }
+  [dir="rtl"] .hero-subtitle { max-width: 100%; }
+
+  .hero-cta { display: flex; gap: 12px; flex-wrap: wrap; }
+
+  .btn-primary {
+    padding: 14px 28px; border-radius: var(--radius);
+    background: var(--primary); color: white;
+    font-size: 15px; font-weight: 600;
+    border: none; cursor: pointer;
+    transition: all var(--transition);
+    text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-primary:hover { background: var(--primary-light); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+
+  .btn-outline {
+    padding: 14px 28px; border-radius: var(--radius);
+    background: transparent; color: var(--primary);
+    font-size: 15px; font-weight: 600;
+    border: 1.5px solid var(--primary); cursor: pointer;
+    transition: all var(--transition);
+    text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-outline:hover { background: var(--primary-faint); transform: translateY(-2px); }
+
+  .hero-stats {
+    display: flex; gap: 32px; margin-top: 48px; padding-top: 40px;
+    border-top: 1px solid var(--border);
+  }
+  .stat { }
+  .stat-num { font-size: 28px; font-weight: 700; color: var(--primary); letter-spacing: -0.5px; }
+  .stat-label { font-size: 13px; color: var(--text-soft); margin-top: 2px; }
+
+  /* Hero visual side */
+  .hero-visual {
+    display: flex; flex-direction: column; gap: 16px;
+    animation: heroFloat 6s ease-in-out infinite;
+  }
+  @keyframes heroFloat {
+    0%,100% { transform: translateY(0); }
+    50%      { transform: translateY(-8px); }
+  }
+
+  .hero-card {
+    background: white; border-radius: 16px;
+    padding: 20px 24px; border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+  }
+  .hero-card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+  .hero-card-icon {
+    width: 40px; height: 40px; border-radius: 10px;
+    background: var(--primary-faint);
+    display: grid; place-items: center; flex-shrink: 0;
+  }
+  .hero-card-icon svg { width: 20px; height: 20px; stroke: var(--primary); fill: none; stroke-width: 1.8; }
+  .hero-card-title { font-size: 14px; font-weight: 600; color: var(--text-dark); }
+  .hero-card-sub { font-size: 12px; color: var(--text-soft); }
+
+  .mini-avatar-row { display: flex; align-items: center; gap: 8px; }
+  .mini-avatar {
+    width: 32px; height: 32px; border-radius: 50%;
+    border: 2px solid white; overflow: hidden;
+    background: linear-gradient(135deg, var(--accent), var(--primary));
+    display: grid; place-items: center;
+    font-size: 11px; font-weight: 700; color: white;
+    margin-inline-end: -8px;
+  }
+  .mini-count { font-size: 13px; font-weight: 600; color: var(--text-dark); margin-inline-start: 16px; }
+
+  .progress-bar { height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--accent)); border-radius: 2px; }
+
+  /* ──── SECTION LAYOUT ──── */
+  section { padding: 96px 5%; }
+  .section-inner { max-width: 1200px; margin: 0 auto; }
+  .section-label {
+    font-size: 12px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 12px;
+  }
+  .section-title {
+    font-size: clamp(28px, 4vw, 42px); font-weight: 300; color: var(--text-dark);
+    letter-spacing: -0.5px; line-height: 1.2;
+  }
+  .section-title strong { font-weight: 600; }
+  .section-desc { font-size: 16px; color: var(--text-soft); max-width: 520px; margin-top: 12px; line-height: 1.7; }
+  .section-head { margin-bottom: 56px; }
+
+  /* ──── SERVICES ──── */
+  #services { background: var(--surface); }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+  }
+  .service-item {
+    background: white; border-radius: var(--radius);
+    padding: 28px 24px; border: 1px solid var(--border);
+    display: flex; flex-direction: column; gap: 14px;
+    transition: all var(--transition); cursor: default;
+  }
+  .service-item:hover { border-color: var(--accent-warm); box-shadow: var(--shadow-sm); transform: translateY(-2px); }
+  .service-icon {
+    width: 48px; height: 48px; border-radius: 12px;
+    background: var(--primary-faint);
+    display: grid; place-items: center;
+  }
+  .service-icon svg { width: 24px; height: 24px; stroke: var(--primary); fill: none; stroke-width: 1.6; }
+  .service-name { font-size: 15px; font-weight: 600; color: var(--text-dark); }
+  .service-desc { font-size: 13px; color: var(--text-soft); line-height: 1.6; }
+
+  /* ──── DOCTORS ──── */
+  #doctors {}
+  .doctors-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px;
+  }
+  .doctor-card {
+    background: white; border-radius: var(--radius);
+    border: 1px solid var(--border); overflow: hidden;
+    transition: all var(--transition);
+  }
+  .doctor-card:hover { box-shadow: var(--shadow-md); transform: translateY(-3px); border-color: var(--accent-warm); }
+
+  .doctor-card-top {
+    padding: 28px 24px 20px;
+    display: flex; align-items: flex-start; gap: 16px;
+  }
+  .doctor-avatar {
+    width: 64px; height: 64px; border-radius: 14px; flex-shrink: 0;
+    display: grid; place-items: center;
+    font-size: 22px; font-weight: 700; color: white;
+  }
+  .doctor-info { flex: 1; }
+  .doctor-name { font-size: 16px; font-weight: 600; color: var(--text-dark); margin-bottom: 4px; }
+  .doctor-spec { font-size: 13px; color: var(--primary); font-weight: 500; margin-bottom: 6px; }
+  .doctor-exp { font-size: 12px; color: var(--text-soft); display: flex; align-items: center; gap: 5px; }
+
+  .doctor-card-bottom {
+    padding: 14px 24px 20px;
+    border-top: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .doctor-rating { display: flex; align-items: center; gap: 5px; font-size: 13px; font-weight: 500; color: var(--text-dark); }
+  .stars { color: #f4a820; font-size: 12px; }
+
+  .btn-book {
+    padding: 8px 16px; border-radius: 8px;
+    background: var(--primary-faint); color: var(--primary);
+    font-size: 13px; font-weight: 600;
+    border: none; cursor: pointer;
+    transition: all var(--transition);
+  }
+  .btn-book:hover { background: var(--primary); color: white; }
+
+  /* ──── BOOKING ──── */
+  #booking { background: var(--surface); }
+  .booking-wrap {
+    max-width: 680px; margin: 0 auto;
+    background: white; border-radius: 20px;
+    border: 1px solid var(--border); overflow: hidden;
+    box-shadow: var(--shadow-lg);
+  }
+
+  .booking-steps {
+    display: flex; padding: 24px 32px;
+    border-bottom: 1px solid var(--border);
+    gap: 0;
+  }
+  .step {
+    flex: 1; display: flex; flex-direction: column; align-items: center; gap: 8px;
+    position: relative;
+  }
+  .step:not(:last-child)::after {
+    content: ''; position: absolute; top: 16px;
+    inset-inline-start: calc(50% + 20px); inset-inline-end: calc(-50% + 20px);
+    height: 1px; background: var(--border); z-index: 0;
+  }
+  .step.active .step-num { background: var(--primary); color: white; border-color: var(--primary); }
+  .step.done .step-num { background: var(--accent); color: white; border-color: var(--accent); }
+  .step-num {
+    width: 32px; height: 32px; border-radius: 50%;
+    display: grid; place-items: center;
+    font-size: 13px; font-weight: 700;
+    border: 2px solid var(--border); color: var(--text-soft);
+    background: white; z-index: 1;
+    transition: all var(--transition);
+  }
+  .step-label { font-size: 11px; color: var(--text-soft); font-weight: 500; text-align: center; }
+  .step.active .step-label { color: var(--primary); }
+
+  .booking-body { padding: 36px 32px; }
+  .booking-panel { display: none; }
+  .booking-panel.active { display: block; animation: langFadeIn 0.35s ease both; }
+
+  .booking-label { font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-soft); margin-bottom: 10px; }
+  .booking-title { font-size: 22px; font-weight: 600; color: var(--text-dark); margin-bottom: 28px; }
+
+  .doctor-options { display: flex; flex-direction: column; gap: 10px; }
+  .doctor-option {
+    display: flex; align-items: center; gap: 14px;
+    padding: 14px 16px; border-radius: 10px;
+    border: 1.5px solid var(--border); cursor: pointer;
+    transition: all var(--transition);
+  }
+  .doctor-option:hover { border-color: var(--accent-warm); background: var(--primary-faint); }
+  .doctor-option.selected { border-color: var(--primary); background: var(--primary-faint); }
+  .doctor-option input[type="radio"] { display: none; }
+  .doc-opt-avatar { width: 44px; height: 44px; border-radius: 10px; display: grid; place-items: center; font-size: 15px; font-weight: 700; color: white; flex-shrink: 0; }
+  .doc-opt-name { font-size: 14px; font-weight: 600; color: var(--text-dark); }
+  .doc-opt-spec { font-size: 12px; color: var(--text-soft); }
+
+  .date-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 24px; }
+  .date-chip {
+    padding: 12px 8px; border-radius: 10px; text-align: center;
+    border: 1.5px solid var(--border); cursor: pointer;
+    transition: all var(--transition); background: white;
+  }
+  .date-chip:hover { border-color: var(--accent-warm); }
+  .date-chip.selected { border-color: var(--primary); background: var(--primary-faint); }
+  .date-day { font-size: 11px; color: var(--text-soft); }
+  .date-num { font-size: 18px; font-weight: 700; color: var(--text-dark); line-height: 1.2; }
+  .date-chip.selected .date-num { color: var(--primary); }
+
+  .time-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+  .time-chip {
+    padding: 8px 14px; border-radius: 8px;
+    border: 1.5px solid var(--border); cursor: pointer;
+    font-size: 13px; font-weight: 500; color: var(--text-mid);
+    transition: all var(--transition);
+  }
+  .time-chip:hover { border-color: var(--accent-warm); }
+  .time-chip.selected { border-color: var(--primary); background: var(--primary-faint); color: var(--primary); font-weight: 600; }
+
+  .form-group { margin-bottom: 18px; }
+  .form-label { font-size: 13px; font-weight: 500; color: var(--text-mid); margin-bottom: 6px; display: block; }
+  .form-input {
+    width: 100%; padding: 12px 14px; border-radius: 9px;
+    border: 1.5px solid var(--border); font-size: 14px;
+    font-family: inherit; color: var(--text-dark); outline: none;
+    transition: border-color var(--transition);
+    background: var(--surface);
+  }
+  .form-input:focus { border-color: var(--primary); background: white; }
+  textarea.form-input { resize: vertical; min-height: 90px; }
+
+  .booking-footer {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 24px 32px; border-top: 1px solid var(--border);
+    gap: 12px;
+  }
+  .btn-back {
+    padding: 12px 24px; border-radius: 9px;
+    background: transparent; color: var(--text-mid);
+    border: 1.5px solid var(--border); font-size: 14px; font-weight: 600;
+    cursor: pointer; transition: all var(--transition);
+    font-family: inherit;
+  }
+  .btn-back:hover { border-color: var(--primary); color: var(--primary); }
+  .btn-next {
+    padding: 12px 28px; border-radius: 9px;
+    background: var(--primary); color: white;
+    border: none; font-size: 14px; font-weight: 600;
+    cursor: pointer; transition: all var(--transition);
+    font-family: inherit; display: flex; align-items: center; gap: 8px;
+  }
+  .btn-next:hover { background: var(--primary-light); transform: translateY(-1px); }
+
+  /* Confirmation */
+  .confirm-box {
+    text-align: center; padding: 20px 0 10px;
+  }
+  .confirm-icon {
+    width: 72px; height: 72px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    display: grid; place-items: center; margin: 0 auto 24px;
+    animation: confPop 0.5s cubic-bezier(0.34,1.56,0.64,1) both;
+  }
+  @keyframes confPop {
+    from { transform: scale(0); opacity: 0; }
+    to   { transform: scale(1); opacity: 1; }
+  }
+  .confirm-icon svg { width: 36px; height: 36px; stroke: white; fill: none; stroke-width: 2.5; }
+  .confirm-title { font-size: 22px; font-weight: 600; color: var(--text-dark); margin-bottom: 10px; }
+  .confirm-text { font-size: 15px; color: var(--text-soft); line-height: 1.6; }
+  .confirm-details {
+    margin-top: 28px; padding: 20px; border-radius: 12px;
+    background: var(--primary-faint); border: 1px solid rgba(26,107,107,0.12);
+    text-align: start;
+  }
+  .confirm-row { display: flex; justify-content: space-between; padding: 6px 0; font-size: 14px; }
+  .confirm-row-label { color: var(--text-soft); }
+  .confirm-row-value { color: var(--text-dark); font-weight: 500; }
+
+  /* ──── ABOUT ──── */
+  #about {}
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+  .about-visual {
+    background: linear-gradient(145deg, var(--primary-faint), #e0f2ee);
+    border-radius: 20px; padding: 40px;
+    display: flex; flex-direction: column; gap: 20px;
+  }
+  .about-metric {
+    display: flex; align-items: center; gap: 16px;
+    background: white; border-radius: 12px; padding: 16px 20px;
+    border: 1px solid var(--border);
+  }
+  .about-metric-icon { width: 40px; height: 40px; border-radius: 10px; background: var(--primary-faint); display: grid; place-items: center; flex-shrink: 0; }
+  .about-metric-icon svg { width: 20px; height: 20px; stroke: var(--primary); fill: none; stroke-width: 1.7; }
+  .about-metric-num { font-size: 22px; font-weight: 700; color: var(--primary); }
+  .about-metric-label { font-size: 12px; color: var(--text-soft); }
+  .about-text p { font-size: 16px; color: var(--text-soft); line-height: 1.8; margin-bottom: 18px; }
+  .about-checkmarks { display: flex; flex-direction: column; gap: 10px; }
+  .check-item { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--text-mid); }
+  .check-item::before {
+    content: '';
+    width: 18px; height: 18px; border-radius: 50%;
+    background: var(--primary-faint); border: 1.5px solid var(--accent);
+    display: inline-block; flex-shrink: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231a6b6b' stroke-width='2.5'%3E%3Cpath d='M5 13l4 4L19 7'/%3E%3C/svg%3E");
+    background-size: 12px; background-position: center; background-repeat: no-repeat;
+  }
+
+  /* ──── TESTIMONIALS ──── */
+  #testimonials { background: var(--surface); }
+  .testimonials-list { display: flex; flex-direction: column; gap: 16px; max-width: 720px; margin: 0 auto; }
+  .testimonial-card {
+    background: white; border-radius: var(--radius);
+    padding: 24px 28px; border: 1px solid var(--border);
+    transition: all var(--transition);
+  }
+  .testimonial-card:hover { box-shadow: var(--shadow-sm); }
+  .testimonial-quote { font-size: 15px; color: var(--text-mid); line-height: 1.7; margin-bottom: 18px; font-style: italic; }
+  .testimonial-author { display: flex; align-items: center; gap: 12px; }
+  .testimonial-avatar { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; font-size: 14px; font-weight: 700; color: white; flex-shrink: 0; }
+  .testimonial-name { font-size: 14px; font-weight: 600; color: var(--text-dark); }
+  .testimonial-meta { font-size: 12px; color: var(--text-soft); }
+
+  /* ──── CONTACT ──── */
+  #contact {}
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; }
+  .contact-info { display: flex; flex-direction: column; gap: 24px; }
+  .contact-item { display: flex; align-items: flex-start; gap: 16px; }
+  .contact-icon { width: 44px; height: 44px; border-radius: 11px; background: var(--primary-faint); display: grid; place-items: center; flex-shrink: 0; }
+  .contact-icon svg { width: 20px; height: 20px; stroke: var(--primary); fill: none; stroke-width: 1.7; }
+  .contact-item-title { font-size: 13px; font-weight: 600; color: var(--text-dark); margin-bottom: 2px; }
+  .contact-item-val { font-size: 14px; color: var(--text-soft); }
+  .map-placeholder {
+    background: var(--primary-faint);
+    border-radius: 16px; border: 1px solid rgba(26,107,107,0.1);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    min-height: 260px; gap: 12px;
+  }
+  .map-placeholder svg { width: 40px; height: 40px; stroke: var(--primary); fill: none; stroke-width: 1.5; opacity: 0.6; }
+  .map-placeholder p { font-size: 14px; color: var(--text-soft); }
+
+  /* ──── FOOTER ──── */
+  footer {
+    background: var(--text-dark); color: rgba(255,255,255,0.7);
+    padding: 40px 5%; font-size: 14px;
+  }
+  .footer-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; }
+  .footer-logo { font-size: 16px; font-weight: 600; color: white; }
+  .footer-links { display: flex; gap: 20px; }
+  .footer-links a { color: rgba(255,255,255,0.6); text-decoration: none; transition: color var(--transition); }
+  .footer-links a:hover { color: white; }
+
+  /* ──── MOBILE NAV OVERLAY ──── */
+  .mobile-nav {
+    display: none; position: fixed; inset: 0; z-index: 999;
+    background: white; flex-direction: column; padding: 80px 5% 40px;
+    gap: 8px;
+  }
+  .mobile-nav.open { display: flex; }
+  .mobile-nav a {
+    padding: 14px 16px; border-radius: 10px;
+    font-size: 17px; font-weight: 500; color: var(--text-dark);
+    text-decoration: none; transition: all var(--transition);
+    border: 1px solid transparent;
+  }
+  .mobile-nav a:hover { background: var(--primary-faint); color: var(--primary); border-color: rgba(26,107,107,0.12); }
+
+  /* ──── RESPONSIVE ──── */
+  @media (max-width: 900px) {
+    .hero-inner { grid-template-columns: 1fr; gap: 48px; }
+    .hero-visual { display: none; }
+    .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+    .nav-links, .btn-nav { display: none; }
+    .hamburger { display: flex; }
+    .date-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (max-width: 600px) {
+    section { padding: 64px 4%; }
+    .hero-stats { gap: 20px; flex-wrap: wrap; }
+    .booking-steps { padding: 16px; gap: 0; }
+    .booking-body { padding: 24px 16px; }
+    .booking-footer { padding: 16px; }
+    .date-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* RTL tweaks */
+  [dir="rtl"] .hero-title { letter-spacing: 0; }
+  [dir="rtl"] .nav-logo-text { letter-spacing: 0; }
+</style>
+</head>
+<body>
+
+<!-- ── NAVBAR ── -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">
+    <div class="nav-logo-icon">
+      <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z" fill="white"/><path d="M12 2v20M2 12h20" stroke="white" stroke-width="2" fill="none" opacity="0.5"/></svg>
+    </div>
+    <span class="nav-logo-text">Afia Clinic | عافية</span>
+  </a>
+
+  <ul class="nav-links">
+    <li><a href="#hero" data-key="nav_home">Home</a></li>
+    <li><a href="#doctors" data-key="nav_doctors">Doctors</a></li>
+    <li><a href="#services" data-key="nav_services">Services</a></li>
+    <li><a href="#booking" data-key="nav_book">Book Appointment</a></li>
+    <li><a href="#contact" data-key="nav_contact">Contact</a></li>
+  </ul>
+
+  <div class="nav-right">
+    <div class="lang-toggle">
+      <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" id="btn-ar" onclick="setLang('ar')">AR</button>
+    </div>
+    <a href="#booking" class="btn-nav" data-key="nav_book_cta">Book Now</a>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile nav -->
+<div class="mobile-nav" id="mobile-nav">
+  <a href="#hero" data-key="nav_home" onclick="closeMobileNav()">Home</a>
+  <a href="#doctors" data-key="nav_doctors" onclick="closeMobileNav()">Doctors</a>
+  <a href="#services" data-key="nav_services" onclick="closeMobileNav()">Services</a>
+  <a href="#booking" data-key="nav_book" onclick="closeMobileNav()">Book Appointment</a>
+  <a href="#contact" data-key="nav_contact" onclick="closeMobileNav()">Contact</a>
+</div>
+
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="hero-bg-circle c1"></div>
+  <div class="hero-bg-circle c2"></div>
+  <div class="hero-inner">
+    <div class="hero-content">
+      <div class="hero-badge reveal">
+        <span class="hero-badge-dot"></span>
+        <span data-key="hero_badge">Trusted Healthcare Since 2010</span>
+      </div>
+      <h1 class="hero-title reveal reveal-delay-1">
+        <span data-key="hero_title_1">Your Health</span><br>
+        <strong data-key="hero_title_2">Comes First</strong>
+      </h1>
+      <p class="hero-subtitle reveal reveal-delay-2" data-key="hero_subtitle">
+        Compassionate, expert care for every patient. Our specialists are here to guide you with clarity and confidence.
+      </p>
+      <div class="hero-cta reveal reveal-delay-3">
+        <a href="#booking" class="btn-primary" data-key="hero_cta1">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+          Book Appointment
+        </a>
+        <a href="#doctors" class="btn-outline" data-key="hero_cta2">
+          View Doctors
+        </a>
+      </div>
+      <div class="hero-stats reveal reveal-delay-4">
+        <div class="stat">
+          <div class="stat-num">15+</div>
+          <div class="stat-label" data-key="stat1">Expert Doctors</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">12k+</div>
+          <div class="stat-label" data-key="stat2">Patients Served</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">98%</div>
+          <div class="stat-label" data-key="stat3">Satisfaction Rate</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="hero-card">
+        <div class="hero-card-header">
+          <div class="hero-card-icon">
+            <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <div>
+            <div class="hero-card-title" data-key="card1_title">Today's Patients</div>
+            <div class="hero-card-sub" data-key="card1_sub">April 26, 2026</div>
+          </div>
+        </div>
+        <div class="mini-avatar-row">
+          <div class="mini-avatar">A</div>
+          <div class="mini-avatar">M</div>
+          <div class="mini-avatar">S</div>
+          <div class="mini-avatar">R</div>
+          <div class="mini-avatar">+</div>
+          <span class="mini-count" data-key="card1_count">+23 more</span>
+        </div>
+      </div>
+
+      <div class="hero-card">
+        <div class="hero-card-header">
+          <div class="hero-card-icon">
+            <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <div>
+            <div class="hero-card-title" data-key="card2_title">Clinic Health Score</div>
+            <div class="hero-card-sub" data-key="card2_sub">Patient satisfaction index</div>
+          </div>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" style="width: 94%"></div></div>
+        <div style="font-size:12px; color: var(--text-soft); margin-top:8px; display:flex; justify-content:space-between;">
+          <span>0%</span><span style="color:var(--primary); font-weight:600;">94%</span><span>100%</span>
+        </div>
+      </div>
+
+      <div class="hero-card">
+        <div class="hero-card-header">
+          <div class="hero-card-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 2v20M2 12h20M5 5l14 14M19 5 5 19" opacity="0.3"/><circle cx="12" cy="12" r="3"/></svg>
+          </div>
+          <div>
+            <div class="hero-card-title" data-key="card3_title">Next Available Slot</div>
+            <div class="hero-card-sub" data-key="card3_sub">Dr. Ahmed — 10:30 AM</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SERVICES ── -->
+<section id="services">
+  <div class="section-inner">
+    <div class="section-head reveal">
+      <div class="section-label" data-key="services_label">Our Services</div>
+      <h2 class="section-title"><strong data-key="services_title1">Comprehensive</strong> <span data-key="services_title2">Medical Services</span></h2>
+      <p class="section-desc" data-key="services_desc">From routine checkups to specialized care — all under one roof.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-item reveal reveal-delay-1">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </div>
+        <div class="service-name" data-key="svc1_name">General Consultation</div>
+        <div class="service-desc" data-key="svc1_desc">Comprehensive health assessments and expert medical advice for all ages.</div>
+      </div>
+      <div class="service-item reveal reveal-delay-2">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+        </div>
+        <div class="service-name" data-key="svc2_name">Dental Care</div>
+        <div class="service-desc" data-key="svc2_desc">Preventive, restorative, and cosmetic dental treatments.</div>
+      </div>
+      <div class="service-item reveal reveal-delay-3">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <div class="service-name" data-key="svc3_name">Pediatrics</div>
+        <div class="service-desc" data-key="svc3_desc">Specialized care for infants, children, and adolescents.</div>
+      </div>
+      <div class="service-item reveal reveal-delay-4">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <div class="service-name" data-key="svc4_name">Cardiology</div>
+        <div class="service-desc" data-key="svc4_desc">Advanced heart health diagnostics and treatment plans.</div>
+      </div>
+      <div class="service-item reveal reveal-delay-1">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/></svg>
+        </div>
+        <div class="service-name" data-key="svc5_name">Laboratory Tests</div>
+        <div class="service-desc" data-key="svc5_desc">Accurate lab analysis with fast results, available same-day.</div>
+      </div>
+      <div class="service-item reveal reveal-delay-2">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
+        <div class="service-name" data-key="svc6_name">Emergency Care</div>
+        <div class="service-desc" data-key="svc6_desc">Immediate medical attention available 24 hours a day.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── DOCTORS ── -->
+<section id="doctors">
+  <div class="section-inner">
+    <div class="section-head reveal">
+      <div class="section-label" data-key="doctors_label">Our Team</div>
+      <h2 class="section-title"><strong data-key="doctors_title1">Expert</strong> <span data-key="doctors_title2">Medical Specialists</span></h2>
+      <p class="section-desc" data-key="doctors_desc">Certified professionals dedicated to your health and recovery.</p>
+    </div>
+    <div class="doctors-grid" id="doctors-grid"></div>
+  </div>
+</section>
+
+<!-- ── BOOKING ── -->
+<section id="booking">
+  <div class="section-inner">
+    <div class="section-head reveal" style="text-align:center; max-width:520px; margin:0 auto 48px;">
+      <div class="section-label" data-key="booking_label">Appointments</div>
+      <h2 class="section-title"><strong data-key="booking_title1">Book</strong> <span data-key="booking_title2">Your Visit</span></h2>
+      <p class="section-desc" data-key="booking_desc" style="margin:0 auto;">Three simple steps to schedule your appointment.</p>
+    </div>
+
+    <div class="booking-wrap reveal">
+      <!-- Steps -->
+      <div class="booking-steps">
+        <div class="step active" id="step-1">
+          <div class="step-num">1</div>
+          <div class="step-label" data-key="step1_label">Doctor</div>
+        </div>
+        <div class="step" id="step-2">
+          <div class="step-num">2</div>
+          <div class="step-label" data-key="step2_label">Date & Time</div>
+        </div>
+        <div class="step" id="step-3">
+          <div class="step-num">3</div>
+          <div class="step-label" data-key="step3_label">Details</div>
+        </div>
+      </div>
+
+      <!-- Panel 1: Select Doctor -->
+      <div class="booking-body">
+        <div class="booking-panel active" id="panel-1">
+          <div class="booking-label" data-key="step1_heading_label">Step 1 of 3</div>
+          <div class="booking-title" data-key="step1_title">Choose a Doctor</div>
+          <div class="doctor-options" id="doctor-options"></div>
+        </div>
+
+        <!-- Panel 2: Date & Time -->
+        <div class="booking-panel" id="panel-2">
+          <div class="booking-label" data-key="step2_heading_label">Step 2 of 3</div>
+          <div class="booking-title" data-key="step2_title">Select Date & Time</div>
+          <p class="booking-label" style="text-transform:none; letter-spacing:0; font-size:13px; color:var(--text-soft); margin-bottom:14px;" data-key="date_label">Available dates</p>
+          <div class="date-grid" id="date-grid"></div>
+          <p class="booking-label" style="text-transform:none; letter-spacing:0; font-size:13px; color:var(--text-soft); margin-bottom:10px;" data-key="time_label">Available times</p>
+          <div class="time-grid" id="time-grid"></div>
+        </div>
+
+        <!-- Panel 3: Details -->
+        <div class="booking-panel" id="panel-3">
+          <div class="booking-label" data-key="step3_heading_label">Step 3 of 3</div>
+          <div class="booking-title" data-key="step3_title">Your Details</div>
+          <div class="form-group">
+            <label class="form-label" data-key="form_name">Full Name</label>
+            <input type="text" class="form-input" id="patient-name" placeholder="e.g. Ahmed Mohamed">
+          </div>
+          <div class="form-group">
+            <label class="form-label" data-key="form_phone">Phone Number</label>
+            <input type="tel" class="form-input" id="patient-phone" placeholder="+20 100 000 0000">
+          </div>
+          <div class="form-group">
+            <label class="form-label" data-key="form_notes">Notes (Optional)</label>
+            <textarea class="form-input" id="patient-notes" placeholder="Any symptoms or notes..."></textarea>
+          </div>
+        </div>
+
+        <!-- Confirmation -->
+        <div class="booking-panel" id="panel-confirm">
+          <div class="confirm-box">
+            <div class="confirm-icon">
+              <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div class="confirm-title" data-key="conf_title">Appointment Confirmed!</div>
+            <p class="confirm-text" data-key="conf_text">Your appointment has been successfully booked. We look forward to seeing you.</p>
+            <div class="confirm-details" id="confirm-details"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="booking-footer" id="booking-footer">
+        <button class="btn-back" id="btn-back" onclick="bookingBack()" style="visibility:hidden;" data-key="btn_back">Back</button>
+        <button class="btn-next" id="btn-next" onclick="bookingNext()">
+          <span data-key="btn_next">Continue</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ABOUT ── -->
+<section id="about">
+  <div class="section-inner">
+    <div class="about-grid">
+      <div class="about-visual reveal">
+        <div class="about-metric">
+          <div class="about-metric-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div>
+          <div>
+            <div class="about-metric-num">2010</div>
+            <div class="about-metric-label" data-key="about_founded">Year Founded</div>
+          </div>
+        </div>
+        <div class="about-metric">
+          <div class="about-metric-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+          <div>
+            <div class="about-metric-num">15+</div>
+            <div class="about-metric-label" data-key="about_specialists">Medical Specialists</div>
+          </div>
+        </div>
+        <div class="about-metric">
+          <div class="about-metric-icon"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+          <div>
+            <div class="about-metric-num">12,400+</div>
+            <div class="about-metric-label" data-key="about_patients">Patients Treated</div>
+          </div>
+        </div>
+      </div>
+      <div class="about-text reveal reveal-delay-2">
+        <div class="section-label" data-key="about_label">About Us</div>
+        <h2 class="section-title" style="margin-bottom: 24px;"><strong data-key="about_title1">Caring</strong> <span data-key="about_title2">for Your Health Since 2010</span></h2>
+        <p data-key="about_p1">Afia Medical Clinic was founded with one purpose: to provide accessible, high-quality healthcare to every patient. Our team of certified specialists combines clinical expertise with genuine compassion.</p>
+        <p data-key="about_p2">We believe in transparent communication, evidence-based treatment, and a patient-first approach that puts your wellbeing at the center of every decision.</p>
+        <div class="about-checkmarks">
+          <div class="check-item" data-key="about_c1">Board-certified physicians & specialists</div>
+          <div class="check-item" data-key="about_c2">Modern diagnostic equipment</div>
+          <div class="check-item" data-key="about_c3">Bilingual patient support</div>
+          <div class="check-item" data-key="about_c4">Flexible scheduling, 6 days a week</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TESTIMONIALS ── -->
+<section id="testimonials">
+  <div class="section-inner">
+    <div class="section-head reveal" style="text-align:center; max-width:520px; margin:0 auto 48px;">
+      <div class="section-label" data-key="test_label">Patient Stories</div>
+      <h2 class="section-title"><strong data-key="test_title1">What Our</strong> <span data-key="test_title2">Patients Say</span></h2>
+    </div>
+    <div class="testimonials-list" id="testimonials-list"></div>
+  </div>
+</section>
+
+<!-- ── CONTACT ── -->
+<section id="contact">
+  <div class="section-inner">
+    <div class="section-head reveal">
+      <div class="section-label" data-key="contact_label">Contact</div>
+      <h2 class="section-title"><strong data-key="contact_title1">Get in</strong> <span data-key="contact_title2">Touch</span></h2>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-info reveal">
+        <div class="contact-item">
+          <div class="contact-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+          <div>
+            <div class="contact-item-title" data-key="contact_addr_label">Address</div>
+            <div class="contact-item-val" data-key="contact_addr_val">15 El-Nasr Road, New Cairo, Egypt</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.26h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6 6l1.06-.85a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+          <div>
+            <div class="contact-item-title" data-key="contact_phone_label">Phone</div>
+            <div class="contact-item-val">+20 2 2345 6789</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+          <div>
+            <div class="contact-item-title" data-key="contact_hours_label">Working Hours</div>
+            <div class="contact-item-val" data-key="contact_hours_val">Sat – Thu: 9:00 AM – 9:00 PM<br>Friday: Closed</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+          <div>
+            <div class="contact-item-title" data-key="contact_email_label">Email</div>
+            <div class="contact-item-val">info@afiaclinic.com</div>
+          </div>
+        </div>
+      </div>
+      <div class="map-placeholder reveal reveal-delay-2">
+        <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <p data-key="map_placeholder">Map • 15 El-Nasr Road, New Cairo</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo" data-key="footer_name">Afia Medical Clinic</div>
+    <div class="footer-links">
+      <a href="#hero" data-key="nav_home">Home</a>
+      <a href="#doctors" data-key="nav_doctors">Doctors</a>
+      <a href="#booking" data-key="nav_book_cta">Book Now</a>
+      <a href="#contact" data-key="nav_contact">Contact</a>
+    </div>
+    <div style="font-size:13px;" data-key="footer_copy">© 2026 Afia Clinic. All rights reserved.</div>
+  </div>
+</footer>
+
+<script>
+// ── TRANSLATIONS ──
+const i18n = {
+  en: {
+    nav_home: "Home",
+    nav_doctors: "Doctors",
+    nav_services: "Services",
+    nav_book: "Book Appointment",
+    nav_contact: "Contact",
+    nav_book_cta: "Book Now",
+    hero_badge: "Trusted Healthcare Since 2010",
+    hero_title_1: "Your Health",
+    hero_title_2: "Comes First",
+    hero_subtitle: "Compassionate, expert care for every patient. Our specialists are here to guide you with clarity and confidence.",
+    hero_cta1: "Book Appointment",
+    hero_cta2: "View Doctors",
+    stat1: "Expert Doctors",
+    stat2: "Patients Served",
+    stat3: "Satisfaction Rate",
+    card1_title: "Today's Patients",
+    card1_sub: "April 26, 2026",
+    card1_count: "+23 more",
+    card2_title: "Clinic Health Score",
+    card2_sub: "Patient satisfaction index",
+    card3_title: "Next Available Slot",
+    card3_sub: "Dr. Ahmed — 10:30 AM",
+    services_label: "Our Services",
+    services_title1: "Comprehensive",
+    services_title2: "Medical Services",
+    services_desc: "From routine checkups to specialized care — all under one roof.",
+    svc1_name: "General Consultation",
+    svc1_desc: "Comprehensive health assessments and expert medical advice for all ages.",
+    svc2_name: "Dental Care",
+    svc2_desc: "Preventive, restorative, and cosmetic dental treatments.",
+    svc3_name: "Pediatrics",
+    svc3_desc: "Specialized care for infants, children, and adolescents.",
+    svc4_name: "Cardiology",
+    svc4_desc: "Advanced heart health diagnostics and treatment plans.",
+    svc5_name: "Laboratory Tests",
+    svc5_desc: "Accurate lab analysis with fast results, available same-day.",
+    svc6_name: "Emergency Care",
+    svc6_desc: "Immediate medical attention available 24 hours a day.",
+    doctors_label: "Our Team",
+    doctors_title1: "Expert",
+    doctors_title2: "Medical Specialists",
+    doctors_desc: "Certified professionals dedicated to your health and recovery.",
+    booking_label: "Appointments",
+    booking_title1: "Book",
+    booking_title2: "Your Visit",
+    booking_desc: "Three simple steps to schedule your appointment.",
+    step1_label: "Doctor",
+    step2_label: "Date & Time",
+    step3_label: "Details",
+    step1_heading_label: "Step 1 of 3",
+    step2_heading_label: "Step 2 of 3",
+    step3_heading_label: "Step 3 of 3",
+    step1_title: "Choose a Doctor",
+    step2_title: "Select Date & Time",
+    step3_title: "Your Details",
+    date_label: "Available dates",
+    time_label: "Available times",
+    form_name: "Full Name",
+    form_phone: "Phone Number",
+    form_notes: "Notes (Optional)",
+    btn_back: "Back",
+    btn_next: "Continue",
+    btn_submit: "Confirm Booking",
+    conf_title: "Appointment Confirmed!",
+    conf_text: "Your appointment has been successfully booked. We look forward to seeing you.",
+    conf_doctor: "Doctor",
+    conf_date: "Date",
+    conf_time: "Time",
+    about_label: "About Us",
+    about_title1: "Caring",
+    about_title2: "for Your Health Since 2010",
+    about_p1: "Afia Medical Clinic was founded with one purpose: to provide accessible, high-quality healthcare to every patient. Our team of certified specialists combines clinical expertise with genuine compassion.",
+    about_p2: "We believe in transparent communication, evidence-based treatment, and a patient-first approach that puts your wellbeing at the center of every decision.",
+    about_c1: "Board-certified physicians & specialists",
+    about_c2: "Modern diagnostic equipment",
+    about_c3: "Bilingual patient support",
+    about_c4: "Flexible scheduling, 6 days a week",
+    about_founded: "Year Founded",
+    about_specialists: "Medical Specialists",
+    about_patients: "Patients Treated",
+    test_label: "Patient Stories",
+    test_title1: "What Our",
+    test_title2: "Patients Say",
+    contact_label: "Contact",
+    contact_title1: "Get in",
+    contact_title2: "Touch",
+    contact_addr_label: "Address",
+    contact_addr_val: "15 El-Nasr Road, New Cairo, Egypt",
+    contact_phone_label: "Phone",
+    contact_hours_label: "Working Hours",
+    contact_hours_val: "Sat – Thu: 9:00 AM – 9:00 PM<br>Friday: Closed",
+    contact_email_label: "Email",
+    map_placeholder: "Map • 15 El-Nasr Road, New Cairo",
+    footer_name: "Afia Medical Clinic",
+    footer_copy: "© 2026 Afia Clinic. All rights reserved.",
+    book_btn: "Book",
+  },
+  ar: {
+    nav_home: "الرئيسية",
+    nav_doctors: "الأطباء",
+    nav_services: "الخدمات",
+    nav_book: "حجز موعد",
+    nav_contact: "اتصل بنا",
+    nav_book_cta: "احجز الآن",
+    hero_badge: "رعاية صحية موثوقة منذ 2010",
+    hero_title_1: "صحتك",
+    hero_title_2: "هي الأولوية",
+    hero_subtitle: "رعاية متخصصة وبمشاعر إنسانية لكل مريض. أطباؤنا هنا لإرشادك بوضوح وثقة.",
+    hero_cta1: "احجز موعدًا",
+    hero_cta2: "تصفّح الأطباء",
+    stat1: "طبيب متخصص",
+    stat2: "مريض تمّت خدمته",
+    stat3: "نسبة الرضا",
+    card1_title: "مرضى اليوم",
+    card1_sub: "٢٦ أبريل ٢٠٢٦",
+    card1_count: "+٢٣ آخرون",
+    card2_title: "مؤشر جودة العيادة",
+    card2_sub: "مستوى رضا المرضى",
+    card3_title: "أقرب موعد متاح",
+    card3_sub: "د. أحمد — ١٠:٣٠ صباحًا",
+    services_label: "خدماتنا",
+    services_title1: "خدمات طبية",
+    services_title2: "متكاملة",
+    services_desc: "من الفحوصات الروتينية إلى الرعاية المتخصصة — كل ذلك تحت سقف واحد.",
+    svc1_name: "الاستشارة العامة",
+    svc1_desc: "تقييم صحي شامل ومشورة طبية متخصصة لجميع الأعمار.",
+    svc2_name: "طب الأسنان",
+    svc2_desc: "علاجات وقائية وتجميلية وترميمية للأسنان.",
+    svc3_name: "طب الأطفال",
+    svc3_desc: "رعاية متخصصة للرضّع والأطفال والمراهقين.",
+    svc4_name: "أمراض القلب",
+    svc4_desc: "تشخيص متقدم لصحة القلب وخطط علاجية دقيقة.",
+    svc5_name: "التحاليل المخبرية",
+    svc5_desc: "تحليل مختبري دقيق بنتائج سريعة في نفس اليوم.",
+    svc6_name: "طوارئ طبية",
+    svc6_desc: "رعاية طبية فورية متاحة على مدار الساعة.",
+    doctors_label: "فريقنا الطبي",
+    doctors_title1: "أطباء",
+    doctors_title2: "متخصصون ومعتمدون",
+    doctors_desc: "كوادر طبية مؤهّلة مكرّسة لصحتك وشفائك.",
+    booking_label: "المواعيد",
+    booking_title1: "احجز",
+    booking_title2: "زيارتك",
+    booking_desc: "ثلاث خطوات بسيطة لتحديد موعدك الطبي.",
+    step1_label: "الطبيب",
+    step2_label: "التاريخ والوقت",
+    step3_label: "البيانات",
+    step1_heading_label: "الخطوة ١ من ٣",
+    step2_heading_label: "الخطوة ٢ من ٣",
+    step3_heading_label: "الخطوة ٣ من ٣",
+    step1_title: "اختر الطبيب",
+    step2_title: "حدّد التاريخ والوقت",
+    step3_title: "بياناتك",
+    date_label: "التواريخ المتاحة",
+    time_label: "الأوقات المتاحة",
+    form_name: "الاسم الكامل",
+    form_phone: "رقم الهاتف",
+    form_notes: "ملاحظات (اختياري)",
+    btn_back: "رجوع",
+    btn_next: "متابعة",
+    btn_submit: "تأكيد الحجز",
+    conf_title: "تم تأكيد الموعد!",
+    conf_text: "تم حجز موعدك بنجاح. نتطلع إلى رؤيتك.",
+    conf_doctor: "الطبيب",
+    conf_date: "التاريخ",
+    conf_time: "الوقت",
+    about_label: "من نحن",
+    about_title1: "نعتني",
+    about_title2: "بصحتك منذ ٢٠١٠",
+    about_p1: "تأسست عيادة عافية الطبية بهدف واحد: تقديم رعاية صحية عالية الجودة وميسّرة لكل مريض. يجمع فريقنا بين الكفاءة الطبية والإنسانية الحقيقية.",
+    about_p2: "نؤمن بالتواصل الشفاف والعلاج المبني على الأدلة ونهج يضع صحة المريض في صميم كل قرار.",
+    about_c1: "أطباء وأخصائيون معتمدون",
+    about_c2: "تجهيزات تشخيصية حديثة",
+    about_c3: "دعم ثنائي اللغة للمرضى",
+    about_c4: "مواعيد مرنة ٦ أيام في الأسبوع",
+    about_founded: "سنة التأسيس",
+    about_specialists: "أخصائي طبي",
+    about_patients: "مريض تمّ علاجه",
+    test_label: "تجارب مرضانا",
+    test_title1: "ماذا يقول",
+    test_title2: "مرضانا",
+    contact_label: "تواصل معنا",
+    contact_title1: "ابقَ",
+    contact_title2: "على تواصل",
+    contact_addr_label: "العنوان",
+    contact_addr_val: "١٥ طريق النصر، القاهرة الجديدة، مصر",
+    contact_phone_label: "الهاتف",
+    contact_hours_label: "ساعات العمل",
+    contact_hours_val: "السبت – الخميس: ٩ص – ٩م<br>الجمعة: مغلق",
+    contact_email_label: "البريد الإلكتروني",
+    map_placeholder: "الخريطة • ١٥ طريق النصر، القاهرة الجديدة",
+    footer_name: "عيادة عافية الطبية",
+    footer_copy: "© ٢٠٢٦ عافية. جميع الحقوق محفوظة.",
+    book_btn: "احجز",
+  }
+};
+
+// ── DOCTOR DATA ──
+const doctors = [
+  { id: 1, initials: "AH", color: "#1a6b6b", en: { name: "Dr. Ahmed Hassan", spec: "Cardiologist", exp: "12 years" }, ar: { name: "د. أحمد حسن", spec: "أخصائي قلب", exp: "١٢ سنة" }, rating: "4.9" },
+  { id: 2, initials: "SM", color: "#2a8f8f", en: { name: "Dr. Sara Mohamed", spec: "Pediatrician", exp: "9 years" }, ar: { name: "د. سارة محمد", spec: "طب أطفال", exp: "٩ سنوات" }, rating: "4.8" },
+  { id: 3, initials: "KA", color: "#4eb3a0", en: { name: "Dr. Khaled Ali", spec: "General Physician", exp: "15 years" }, ar: { name: "د. خالد علي", spec: "طبيب عام", exp: "١٥ سنة" }, rating: "4.7" },
+  { id: 4, initials: "LO", color: "#3a7a7a", en: { name: "Dr. Layla Omar", spec: "Dentist", exp: "8 years" }, ar: { name: "د. ليلى عمر", spec: "طبيبة أسنان", exp: "٨ سنوات" }, rating: "5.0" },
+];
+
+// ── TESTIMONIALS ──
+const testimonials = [
+  { initials: "RM", color: "#1a6b6b", en: { quote: "The doctors here are incredibly attentive. I felt heard and well-cared for throughout my entire visit.", name: "Rania M.", meta: "Patient since 2022" }, ar: { quote: "الأطباء هنا منتبهون جدًا. شعرت باهتمام حقيقي طوال فترة علاجي.", name: "رانيا م.", meta: "مريضة منذ ٢٠٢٢" } },
+  { initials: "TK", color: "#2a8f8f", en: { quote: "Booking an appointment was so easy. The staff was professional and the clinic was spotlessly clean.", name: "Tarek K.", meta: "Patient since 2021" }, ar: { quote: "حجز الموعد كان سهلاً جدًا. الكادر محترف والعيادة في غاية النظافة.", name: "طارق ك.", meta: "مريض منذ ٢٠٢١" } },
+  { initials: "NY", color: "#4eb3a0", en: { quote: "Dr. Sara is wonderful with children. My son used to fear doctors — not anymore. Highly recommended.", name: "Nadia Y.", meta: "Parent, patient since 2023" }, ar: { quote: "د. سارة رائعة مع الأطفال. كان ابني يخاف من الأطباء — لم يعد كذلك. موصى بها بشدة.", name: "نادية ي.", meta: "والدة، مريضة منذ ٢٠٢٣" } },
+];
+
+// ── DATE/TIME DATA ──
+const availableDates = [
+  { en: { day: "Sun", num: "27" }, ar: { day: "أحد", num: "٢٧" } },
+  { en: { day: "Mon", num: "28" }, ar: { day: "إثن", num: "٢٨" } },
+  { en: { day: "Tue", num: "29" }, ar: { day: "ثلث", num: "٢٩" } },
+  { en: { day: "Wed", num: "30" }, ar: { day: "أرب", num: "٣٠" } },
+  { en: { day: "Thu", num: "1" }, ar: { day: "خمس", num: "١" } },
+  { en: { day: "Sat", num: "3" }, ar: { day: "سبت", num: "٣" } },
+];
+const availableTimes = ["9:00", "9:30", "10:00", "10:30", "11:00", "12:00", "2:00", "3:00", "4:30"];
+
+// ── STATE ──
+let currentLang = localStorage.getItem('lang') || 'en';
+let currentStep = 1;
+let selectedDoctor = null;
+let selectedDate = null;
+let selectedTime = null;
+
+// ── INIT ──
+function init() {
+  renderDoctors();
+  renderDoctorOptions();
+  renderDates();
+  renderTimes();
+  renderTestimonials();
+  applyLang(currentLang, false);
+  setupScrollReveal();
+  setupNavScroll();
+  setupHamburger();
+}
+
+// ── LANGUAGE ──
+function setLang(lang) {
+  if (lang === currentLang) return;
+  const elements = document.querySelectorAll('[data-key]');
+  elements.forEach(el => el.classList.add('lang-fade'));
+  setTimeout(() => {
+    currentLang = lang;
+    localStorage.setItem('lang', lang);
+    applyLang(lang, true);
+    elements.forEach(el => el.classList.remove('lang-fade'));
+  }, 180);
+}
+
+function applyLang(lang, animate) {
+  const t = i18n[lang];
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+  document.body.style.fontFamily = lang === 'ar' ? 'var(--font-ar)' : 'var(--font-en)';
+
+  document.querySelectorAll('[data-key]').forEach(el => {
+    const key = el.getAttribute('data-key');
+    if (t[key] !== undefined) {
+      if (el.innerHTML.includes('<')) {
+        el.innerHTML = t[key];
+      } else {
+        el.textContent = t[key];
+      }
+      if (animate) {
+        el.classList.add('lang-fade');
+        setTimeout(() => el.classList.remove('lang-fade'), 450);
+      }
+    }
+  });
+
+  // Update buttons
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+  document.getElementById('btn-ar').classList.toggle('active', lang === 'ar');
+
+  // Re-render dynamic content
+  renderDoctors();
+  renderDoctorOptions();
+  renderDates();
+  renderTimes();
+  renderTestimonials();
+  updateBookingBtn();
+}
+
+// ── RENDER DOCTORS (section) ──
+function renderDoctors() {
+  const t = i18n[currentLang];
+  const grid = document.getElementById('doctors-grid');
+  if (!grid) return;
+  grid.innerHTML = doctors.map(d => {
+    const info = d[currentLang];
+    return `
+    <div class="doctor-card">
+      <div class="doctor-card-top">
+        <div class="doctor-avatar" style="background: linear-gradient(135deg, ${d.color}, ${d.color}cc)">${d.initials}</div>
+        <div class="doctor-info">
+          <div class="doctor-name">${info.name}</div>
+          <div class="doctor-spec">${info.spec}</div>
+          <div class="doctor-exp">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            ${info.exp} ${currentLang === 'ar' ? 'خبرة' : 'experience'}
+          </div>
+        </div>
+      </div>
+      <div class="doctor-card-bottom">
+        <div class="doctor-rating">
+          <span class="stars">★★★★★</span> ${d.rating}
+        </div>
+        <button class="btn-book" onclick="selectDoctorAndGo(${d.id})">${t.book_btn}</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function selectDoctorAndGo(id) {
+  selectedDoctor = id;
+  document.querySelectorAll('.doctor-option').forEach(opt => {
+    opt.classList.toggle('selected', parseInt(opt.dataset.docId) === id);
+    opt.querySelector('input').checked = parseInt(opt.dataset.docId) === id;
+  });
+  document.getElementById('booking').scrollIntoView({ behavior: 'smooth' });
+  setTimeout(() => goToStep(2), 600);
+}
+
+// ── RENDER DOCTOR OPTIONS (booking) ──
+function renderDoctorOptions() {
+  const container = document.getElementById('doctor-options');
+  if (!container) return;
+  container.innerHTML = doctors.map(d => {
+    const info = d[currentLang];
+    const sel = selectedDoctor === d.id;
+    return `
+    <label class="doctor-option ${sel ? 'selected' : ''}" data-doc-id="${d.id}" onclick="selectDoctor(${d.id})">
+      <input type="radio" name="doctor" ${sel ? 'checked' : ''}>
+      <div class="doc-opt-avatar" style="background: linear-gradient(135deg, ${d.color}, ${d.color}99)">${d.initials}</div>
+      <div>
+        <div class="doc-opt-name">${info.name}</div>
+        <div class="doc-opt-spec">${info.spec}</div>
+      </div>
+    </label>`;
+  }).join('');
+}
+
+function selectDoctor(id) {
+  selectedDoctor = id;
+  document.querySelectorAll('.doctor-option').forEach(opt => {
+    opt.classList.toggle('selected', parseInt(opt.dataset.docId) === id);
+  });
+}
+
+// ── RENDER DATES ──
+function renderDates() {
+  const grid = document.getElementById('date-grid');
+  if (!grid) return;
+  grid.innerHTML = availableDates.map((d, i) => {
+    const info = d[currentLang];
+    const sel = selectedDate === i;
+    return `<div class="date-chip ${sel ? 'selected' : ''}" onclick="selectDate(${i})">
+      <div class="date-day">${info.day}</div>
+      <div class="date-num">${info.num}</div>
+    </div>`;
+  }).join('');
+}
+
+function selectDate(i) {
+  selectedDate = i;
+  document.querySelectorAll('.date-chip').forEach((c, idx) => c.classList.toggle('selected', idx === i));
+}
+
+// ── RENDER TIMES ──
+function renderTimes() {
+  const grid = document.getElementById('time-grid');
+  if (!grid) return;
+  grid.innerHTML = availableTimes.map((t, i) => {
+    const sel = selectedTime === i;
+    return `<div class="time-chip ${sel ? 'selected' : ''}" onclick="selectTime(${i})">${t}</div>`;
+  }).join('');
+}
+
+function selectTime(i) {
+  selectedTime = i;
+  document.querySelectorAll('.time-chip').forEach((c, idx) => c.classList.toggle('selected', idx === i));
+}
+
+// ── RENDER TESTIMONIALS ──
+function renderTestimonials() {
+  const list = document.getElementById('testimonials-list');
+  if (!list) return;
+  list.innerHTML = testimonials.map(t => {
+    const info = t[currentLang];
+    return `
+    <div class="testimonial-card">
+      <div class="testimonial-quote">"${info.quote}"</div>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar" style="background: ${t.color}">${t.initials}</div>
+        <div>
+          <div class="testimonial-name">${info.name}</div>
+          <div class="testimonial-meta">${info.meta}</div>
+        </div>
+        <div style="margin-inline-start:auto; color: #f4a820; font-size:14px;">★★★★★</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── BOOKING FLOW ──
+function goToStep(step) {
+  [1,2,3].forEach(s => {
+    document.getElementById(`step-${s}`).classList.remove('active','done');
+    document.getElementById(`panel-${s}`)?.classList.remove('active');
+  });
+  document.getElementById(`panel-confirm`)?.classList.remove('active');
+
+  for (let s = 1; s < step; s++) document.getElementById(`step-${s}`).classList.add('done');
+  if (step <= 3) {
+    document.getElementById(`step-${step}`).classList.add('active');
+    document.getElementById(`panel-${step}`).classList.add('active');
+  } else {
+    document.getElementById(`panel-confirm`).classList.add('active');
+  }
+  currentStep = step;
+
+  document.getElementById('btn-back').style.visibility = step > 1 ? 'visible' : 'hidden';
+  updateBookingBtn();
+}
+
+function updateBookingBtn() {
+  const t = i18n[currentLang];
+  const btn = document.getElementById('btn-next');
+  const span = btn.querySelector('span');
+  if (currentStep === 3) {
+    span.textContent = t.btn_submit;
+  } else if (currentStep >= 4) {
+    document.getElementById('booking-footer').style.display = 'none';
+  } else {
+    span.textContent = t.btn_next;
+  }
+}
+
+function bookingNext() {
+  if (currentStep === 1 && !selectedDoctor) { shakeBooking(); return; }
+  if (currentStep === 2 && (!selectedDate || selectedTime === null)) { shakeBooking(); return; }
+  if (currentStep === 3) {
+    submitBooking(); return;
+  }
+  goToStep(currentStep + 1);
+}
+
+function bookingBack() {
+  if (currentStep > 1) goToStep(currentStep - 1);
+}
+
+function shakeBooking() {
+  const wrap = document.querySelector('.booking-wrap');
+  wrap.style.animation = 'shake 0.4s ease';
+  setTimeout(() => wrap.style.animation = '', 400);
+}
+
+function submitBooking() {
+  const t = i18n[currentLang];
+  const doc = doctors.find(d => d.id === selectedDoctor);
+  const docName = doc ? doc[currentLang].name : '';
+  const date = selectedDate !== null ? availableDates[selectedDate][currentLang] : { day: '', num: '' };
+  const time = selectedTime !== null ? availableTimes[selectedTime] : '';
+
+  document.getElementById('confirm-details').innerHTML = `
+    <div class="confirm-row"><span class="confirm-row-label">${t.conf_doctor}</span><span class="confirm-row-value">${docName}</span></div>
+    <div class="confirm-row"><span class="confirm-row-label">${t.conf_date}</span><span class="confirm-row-value">${date.day} ${date.num}</span></div>
+    <div class="confirm-row"><span class="confirm-row-label">${t.conf_time}</span><span class="confirm-row-value">${time}</span></div>
+  `;
+
+  goToStep(4);
+  document.getElementById('booking-footer').style.display = 'none';
+}
+
+// Shake animation
+const shakeStyle = document.createElement('style');
+shakeStyle.textContent = `@keyframes shake { 0%,100%{transform:translateX(0)} 20%,60%{transform:translateX(-6px)} 40%,80%{transform:translateX(6px)} }`;
+document.head.appendChild(shakeStyle);
+
+// ── SCROLL REVEAL ──
+function setupScrollReveal() {
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+}
+
+// ── NAV SCROLL ──
+function setupNavScroll() {
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
+  });
+}
+
+// ── HAMBURGER ──
+function setupHamburger() {
+  document.getElementById('hamburger').addEventListener('click', () => {
+    document.getElementById('mobile-nav').classList.toggle('open');
+  });
+}
+function closeMobileNav() {
+  document.getElementById('mobile-nav').classList.remove('open');
+}
+
+// Start
+init();
+</script>
+</body>
+</html>
